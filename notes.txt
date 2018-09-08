@@ -1,0 +1,92 @@
+npm install primeng --save
+npm install font-awesome --save
+npm install chart.js --save
+npm install dexie --save
+npm install fullcalendar --save
+npm install jquery --save
+npm install moment --save
+npm install quill --save
+npm install roboto-fontface --save
+npm install chart.js --save
+
+ng serve --poll=2000
+
+File alltimes.components.ts:
+
+// import {Observable} from 'rxjs/Observable';
+import { Observable, range, interval } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
+Added pipe and replaced do with tap:
+
+New:
+range(0, MAX_EXAMPLE_RECORDS).pipe(tap(
+...
+})).subscribe(() => {
+
+Old:
+Observable.range(0, MAX_EXAMPLE_RECORDS).do(
+...
+}).subscribe(() => {
+
+File app.components.ts:
+
+New:
+icon: 'fa fa-home'
+
+Old:
+icon: 'fa-home'
+
+    this.menuItems = [
+      {label: 'Dashboard', icon: 'fa fa-home', routerLink: ['/dashboard'], command: (event) => handleSelected(event)},
+      {label: 'All Times', icon: 'fa fa-calendar', routerLink: ['/alltimes'], command: (event) => handleSelected(event)},
+      {label: 'My Timesheet', icon: 'fa fa-clock-o', routerLink: ['/timesheet'], command: (event) => handleSelected(event)},
+      {label: 'Add Project', icon: 'fa fa-tasks', routerLink: ['/projects'], command: (event) => handleSelected(event)},
+      {label: 'My Profile', icon: 'fa fa-users', routerLink: ['/profile'], command: (event) => handleSelected(event)},
+      {label: 'Settings', icon: 'fa fa-sliders', routerLink: ['/settings'], command: (event) => handleSelected(event)},
+    ]
+    
+    //    let selectedIcon = this.bigMenu.container.querySelector(`.${menuItem.icon}`);
+    //    jQuery(selectedIcon).closest('li').addClass('menu-selected');
+    
+File dashboard.component.ts:
+
+// import {Observable} from 'rxjs/Observable';
+import { Observable, interval, timer } from 'rxjs';
+// import '../rxjs-operators';
+import { map, filter, scan, timeInterval } from 'rxjs/operators';
+
+  ngAfterViewInit() {
+      // interval(3000).pipe(timeInterval().subscribe(() => {
+      interval(3000).pipe(timeInterval()).subscribe(() => {
+
+
+File timesheet.component.ts:
+
+import { SampleProjectsData } from "./sample.projects.data";
+import { SamplePeopleData } from "./sample.people.data";
+
+
+File angular.json:
+
+            "styles": [
+                "./node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
+                "./node_modules/font-awesome/css/font-awesome.css",
+                "./node_modules/primeng/resources/primeng.css",
+                "./node_modules/primeng/resources/themes/bootstrap/theme.css",
+                "./node_modules/quill/dist/quill.core.css",
+                "./node_modules/quill/dist/quill.snow.css",
+                "./node_modules/fullcalendar/dist/fullcalendar.css",
+                "./src/styles.css"
+            ],
+            "scripts": [
+                "./node_modules/chart.js/dist/Chart.js",
+                "./node_modules/jquery/dist/jquery.js",
+                "./node_modules/quill/dist/quill.js",
+                "./node_modules/moment/min/moment.min.js",
+                "./node_modules/fullcalendar/dist/fullcalendar.js"            
+            ]
+
+
+    
+

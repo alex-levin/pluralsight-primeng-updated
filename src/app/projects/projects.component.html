@@ -1,0 +1,119 @@
+<form [formGroup]="projectForm" (ngSubmit)="onSubmit()" class="ui-g">
+    <p-panel header="Add Project" class="ui-g-12">
+
+        <div class="ui-g">
+
+            <label for="projectId" class="ui-g-12 ui-md-2">Project Id*</label>
+
+            <!-- 
+            <input pInputText id="projectId" formControlName="projectId" 
+            placeholder="Enter Your Project Id" class=""
+
+            pInputText is a PrimeNG directive
+            -->
+            <p-inputMask mask="aaa-999" id="projectId" formControlName="projectId" placeholder="ABC-123" slotChar="?" class="ui-g-12 ui-md-5"></p-inputMask>
+
+            <div class="ui-g-12 ui-md-5">
+                <!--
+                    <div class="ui-message ui-message-error"
+                        *ngIf="fieldErrors('projectId')">
+                    </div>
+                    <i class="fa fa-close"></i>
+                    <span *ngIf="fieldErrors('projectId').required">Project ID is required</span>
+                    <span *ngIf="fieldErrors('projectId').minlength">Project ID must be 5 characters</span>
+
+                    PrimeNG also has ui-message-warn, ui-message-info, ui-message-success styles
+
+                    [form]="projectForm" - square brackets indicate that "projectForm" is not a string but 
+                    the projectForm backing property.
+                -->
+                <at-fielderrors [form]="projectForm" field="projectId" nicename="Project ID"> </at-fielderrors>
+
+
+            </div>
+        </div>
+
+        <div class="ui-g">
+            <label for="description" class="ui-g-12">Description</label>
+            <!--
+                <textarea id="descritption" rows="10" pInputTextArea
+                formControlName="description" class=""ui-g-12"></textarea>
+
+                PrimeNG rich text editor is based on the Quill library quilljs.com
+                npm install quill --save
+            -->
+            <p-editor id="description" formControlName="description" class="ui-g-12" 
+                [style]="{'height':'200px'}"></p-editor>
+
+            <div class="ui-g-12">
+                <at-fielderrors [form]="projectForm" field="description" nicename="Description"> </at-fielderrors>
+            </div>
+        </div>
+
+        <div class="ui-g">
+            <label for="startDate" class="ui-g-12 ui-md-2">Start Date</label>
+            <p-calendar [showIcon]="true" id="startDate" formControlName="startDate" dateFormat="dd/mm/yy" 
+                class="ui-g-12 ui-md-5" [minDate]="minProjectDate"></p-calendar>
+
+            <!-- minDate - prevents date selection before the minProjectDate property 
+            defined in the backing component. See https://www.primefaces.org/primeng/#/calendar -->
+
+            <div class="ui-g-12 ui-md-5">
+                <at-fielderrors [form]="projectForm" field="startDate" nicename="Start Date"> </at-fielderrors>
+            </div>
+        </div>
+
+        <div class="ui-g">
+            <p-fieldset legend="Project Type" class="ui-g-12" [toggleable]="true" [collapsed]="false">
+                <!-- 
+                    Same formControlName and name elements for radio buttons 
+                    See the p-radioButton style in projects.component.css
+                -->
+                <p-radioButton name="projGroup" label="Front End" value="F" formControlName="projectType"></p-radioButton>
+                <p-radioButton name="projGroup" label="Backend End" value="B" formControlName="projectType"></p-radioButton>
+                <p-radioButton name="projGroup" label="Operations" value="O" formControlName="projectType"></p-radioButton>
+
+            </p-fieldset>
+        </div>
+
+        <div class="ui-g">
+            <label for="devs" class="ui-g-12 ui-md-2">Assigned Devs</label>
+            <!--
+                <p-dropdown id="devs" [options]="allDevs"
+                    formControlName="selectedDevs" filter="true" class="ui-g-12 ui-md-10"></p-dropdown>
+                <p-multiSelect id="devs" [options]="allDevs" defaultLabel="Select a Dev or Two" 
+                    formControlName="selectedDevs" filter="true" class="ui-g-12 ui-md-10"></p-multiSelect>
+            -->
+            <p-listbox id="devs" [options]="allDevs" [multiple]="true" [filter]="true" 
+                formControlName="selectedDevs" class="ui-g-12 ui-md-10">
+                <!-- let-dev is like ngFor loop. The let-dev clause assigns the current iterable which in our case is allDevs,
+                to the dev variable which we can use in out template.
+                See https://angular.io/guide/structural-directives - Inside *ngFor. 
+                    
+                See p-listbox >>> .ui-listbox in css. Triple greater operator allows us to reach inside the pinbox scoped CSS
+                and change its CSS for just this page.
+                -->
+                <ng-template let-dev pTemplate="item">
+                    <img src="http://i.pravatar.cc/100?u={{dev.label}}" class="avatar" />
+                    <span class="devName">{{dev.value}}</span>
+                </ng-template>
+            </p-listbox>
+        </div>
+
+        <div class="ui-g">
+            <label id="ratingLabel" for="rating" class="ui-g-12 ui-md-2">Project Coolness</label>
+            <!--
+                <p-spinner id="rating" formControlName="rating" [min]="0" [max]="5" class="ui-g-12 ui-md-10"></p-spinner>
+                <p-slider id="rating" formControlName="rating" [min]="0" [max]="5" class="ui-g-12 ui-md-10"></p-slider>
+
+                See p-rating style in projects.component.css.
+                [cancel]="false" forces user to provide the rating.
+            -->
+            <p-rating id="rating" formControlName="rating" class="ui-g-12 ui-md-5" [cancel]="false"></p-rating>
+            <pre class="ui-g-12 ui-md-5">{{ projectForm.getRawValue() | json }}</pre>
+        </div>
+
+        <button pButton type="submit" [disabled]="hasFormErrors()" label="Save" icon="fa-floppy-o"></button>
+
+    </p-panel>
+</form>
