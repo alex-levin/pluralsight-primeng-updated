@@ -18,6 +18,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild('bigMenu') bigMenu : Menu;
   @ViewChild('smallMenu') smallMenu : Menu;
 
+  menuSelected = 'menu-selected';
+  menuNotSelected = 'menu-not-selected';
+
   constructor(private router : Router) {
 
   }
@@ -34,12 +37,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
     this.menuItems = [
-      {label: 'Dashboard', icon: 'fa fa-home', routerLink: ['/dashboard'], command: (event) => handleSelected(event)},
-      {label: 'All Times', icon: 'fa fa-calendar', routerLink: ['/alltimes'], command: (event) => handleSelected(event)},
-      {label: 'My Timesheet', icon: 'fa fa-clock-o', routerLink: ['/timesheet'], command: (event) => handleSelected(event)},
-      {label: 'Add Project', icon: 'fa fa-tasks', routerLink: ['/projects'], command: (event) => handleSelected(event)},
-      {label: 'My Profile', icon: 'fa fa-users', routerLink: ['/profile'], command: (event) => handleSelected(event)},
-      {label: 'Settings', icon: 'fa fa-sliders', routerLink: ['/settings'], command: (event) => handleSelected(event)},
+      {label: 'Dashboard', icon: 'fa fa-home', routerLink: ['/dashboard'], command: (event) => handleSelected(event), styleClass: this.menuNotSelected},
+      {label: 'All Times', icon: 'fa fa-calendar', routerLink: ['/alltimes'], command: (event) => handleSelected(event), styleClass: this.menuNotSelected},
+      {label: 'My Timesheet', icon: 'fa fa-clock-o', routerLink: ['/timesheet'], command: (event) => handleSelected(event), styleClass: this.menuNotSelected},
+      {label: 'Add Project', icon: 'fa fa-tasks', routerLink: ['/projects'], command: (event) => handleSelected(event), styleClass: this.menuNotSelected},
+      {label: 'My Profile', icon: 'fa fa-users', routerLink: ['/profile'], command: (event) => handleSelected(event), styleClass: this.menuNotSelected},
+      {label: 'Settings', icon: 'fa fa-sliders', routerLink: ['/settings'], command: (event) => handleSelected(event), styleClass: this.menuNotSelected},
     ]
 
     this.miniMenuItems = [];
@@ -53,16 +56,16 @@ export class AppComponent implements OnInit, AfterViewInit {
   selectInitialMenuItemBasedOnUrl() {
     let path = document.location.pathname;
     let menuItem = this.menuItems.find( (item) => { return item.routerLink[0] == path });
+
+    // menu-selected is defined in src/styles.css
     if (menuItem) {
-//    let selectedIcon = this.bigMenu.container.querySelector(`.${menuItem.icon}`);
-//    jQuery(selectedIcon).closest('li').addClass('menu-selected');
+       // let selectedIcon = this.bigMenu.container.querySelector(`.${menuItem.icon}`);
+       // jQuery(selectedIcon).closest('li').addClass('menu-selected');
+       menuItem.styleClass = this.menuNotSelected;
     }
   }
 
   ngAfterViewInit() {
     this.selectInitialMenuItemBasedOnUrl();
   }
-
-
-
 }

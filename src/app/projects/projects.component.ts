@@ -33,12 +33,12 @@ export class ProjectsComponent implements OnInit {
   ngOnInit() {
     this.projectForm = this.fb.group({
       // '' is a default value
-      projectId: ['', [Validators.required, Validators.minLength(5)]],
-      description: ['My cool project', [Validators.required, Validators.maxLength(140)]],
-      startDate: [new Date(), Validators.required],
-      projectType: ['B'],
-      selectedDevs: [[]],
-      rating: [3]
+      'projectId': ['', [Validators.required, Validators.minLength(5), Validators.maxLength(10)]],
+      'description': ['My cool project', [Validators.required, Validators.maxLength(120)]],
+      'startDate': [new Date(), Validators.required],
+      'projectType': ['B'],
+      'selectedDevs': [[]],
+      'rating': [3]
     })
 
   }
@@ -57,12 +57,4 @@ export class ProjectsComponent implements OnInit {
   onSubmit() {
     alert(JSON.stringify(this.projectForm.value));
   }
-
-
-
-
-
-
-
-
 }

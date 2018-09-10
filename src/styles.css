@@ -32,6 +32,11 @@ body {
   color: #ffffff;
 }
 
+.menu-not-selected {
+  background-color: #2D353C !important;
+  color: #ffffff;
+}
+
 /* Debugging Layouts
 @media screen and (min-width: 64.063em) {
   .ui-lg-3 {
