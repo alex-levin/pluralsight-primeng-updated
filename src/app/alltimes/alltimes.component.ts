@@ -1,5 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MenuItem, DataTable, LazyLoadEvent } from "primeng/primeng";
+// import { MenuItem, DataTable, LazyLoadEvent } from "primeng/primeng";
+import { MenuItem, LazyLoadEvent } from "primeng/primeng";
+import { Table } from "primeng/table";
+
 import Dexie from 'dexie';
 // import {Observable} from 'rxjs/Observable';
 import { Observable, range, interval } from 'rxjs';
@@ -15,7 +18,10 @@ const MAX_EXAMPLE_RECORDS = 1000;
 })
 export class AlltimesComponent implements OnInit {
 
-  @ViewChild("dt") dt : DataTable;
+  // @ViewChild("dt") dt : DataTable;
+  @ViewChild("dt") dt : Table;
+
+  cols: any[];
 
   db: Dexie;
 
@@ -45,6 +51,7 @@ export class AlltimesComponent implements OnInit {
     //   this.allTimesheetData = this.allTimesheetData.concat(this.allTimesheetData);
     // }
     this.recordCount = this.allTimesheetData.length;
+    console.log('this.recordCount:' + this.recordCount);
 
     this.configureDatabase();
     this.populateDatabase();
@@ -133,9 +140,9 @@ export class AlltimesComponent implements OnInit {
     })
   }
 
+  // Table Lazy loading https://www.primefaces.org/primeng/#/table/lazy
   loadTimes(event: LazyLoadEvent) {
-
-    console.log(JSON.stringify(event));
+    // console.log(JSON.stringify(event));
 
     let table = this.db.table("timesheet");
 
@@ -162,13 +169,21 @@ export class AlltimesComponent implements OnInit {
     };
 
     query.toArray((nextBlockOfTimes) => {
-      // console.log("Loaded times: %s", JSON.stringify(nextBlockOfTimes));
+      console.log("Loaded times: %s", JSON.stringify(nextBlockOfTimes));
       this.allTimesheetData = nextBlockOfTimes;
     });
   }
 
 
   ngOnInit() {
+    this.cols = [
+        { field: 'user', header: 'User'},
+        { field: 'project', header: 'Project'},
+        { field: 'category', header: 'Category'},
+        { field: 'startTime', header: 'Start Time'},
+        { field: 'endTime', header: 'End Time'}
+    ];
+
     this.contextMenu = [
       { label: 'Debug', icon: 'fa-bug', command: (event) => this.onDebug(this.selectedRows) },
       { label: 'Delete', icon: 'fa-close', command: (event) => this.onDelete(this.selectedRows) }

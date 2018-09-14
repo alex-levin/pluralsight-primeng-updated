@@ -8,16 +8,16 @@
 </div>
 
 <p-tabView class="u-g-12 tabs" (onChange)="onChangeTabs($event)">
-  <p-tabPanel *ngFor="let tab of daysOfWeek" header="{{tab}}">
-
+    <!-- If you forget to include [selected] attribute while using *ngFor in p-tabPanel. You will get following error:
+    Error: ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked.
+    -->
+  <p-tabPanel *ngFor="let tab of daysOfWeek; let i = index" header="{{tab}}" [selected]="i == 0">
     <p-dataTable [value]="getTimesForDay(tab)" class="timesheet-grid">
       <p-column field="project" header="Project"></p-column>
       <p-column field="category" header="Category"></p-column>
       <p-column field="startTime" header="Start Time"></p-column>
       <p-column field="endTime" header="End Time"></p-column>
     </p-dataTable>
-
-
   </p-tabPanel>
 </p-tabView>
 
@@ -41,18 +41,21 @@
       </p-schedule>
 
     </div>
+
     <div *ngSwitchCase="PageNames.ProjectPage">
 
       <p-tree [value]="projectsTree" layout="horizontal" selectionMode="single"
               [(selection)]="selectedProject"></p-tree>
 
     </div>
+
     <div *ngSwitchCase="PageNames.PlacePage">
 
       <p-gmap [options]="mapOptions" [overlays]="mapOverlays" styleClass="gmap"
               (onOverlayClick)="onMarkerClick($event)"></p-gmap>
 
     </div>
+
     <div *ngSwitchCase="PageNames.PeoplePage">
 
       <p-dataGrid [value]="people" [paginator]="true" [rows]="4">
@@ -64,12 +67,13 @@
       </p-dataGrid>
 
     </div>
+    
   </div>
 
 
   <p-footer>
-    <button pButton label="Save" icon="fa-check" (click)="saveNewEntry()"></button>
-    <button pButton label="Cancel" icon="fa-times" (click)="cancelDialog()" class="ui-button-secondary"></button>
+    <button pButton label="Save" icon="fa fa-check" (click)="saveNewEntry()"></button>
+    <button pButton label="Cancel" icon="fa fa-times" (click)="cancelDialog()" class="ui-button-secondary"></button>
   </p-footer>
 
 </p-dialog>
@@ -78,8 +82,8 @@
 <p-confirmDialog icon="fa fa-question-circle" width="425" [visible]="false" #confirmDialog>
 
   <p-footer>
-    <button type="button" pButton icon="fa-close" label="No, go back" (click)="confirmDialog.reject()"></button>
-    <button type="button" pButton icon="fa-check" label="Yes, lose changes"
+    <button type="button" pButton icon="fa fa-close" label="No, go back" (click)="confirmDialog.reject()"></button>
+    <button type="button" pButton icon="fa fa-check" label="Yes, lose changes"
             (click)="confirmDialog.accept() && confirmDialog.hide()"></button>
   </p-footer>
 
