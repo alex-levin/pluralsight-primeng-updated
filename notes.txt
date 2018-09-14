@@ -1,13 +1,22 @@
 npm install primeng --save
+npm install primeicons --save
 npm install font-awesome --save
 npm install chart.js --save
 npm install dexie --save
-npm install fullcalendar --save
+
+# 4.0.0-alpha fixes the "el.addClass is not a function" error 
+# https://forum.primefaces.org/viewtopic.php?f=57&p=170053
+npm install fullcalendar@4.0.0-alpha --save
+
 npm install jquery --save
 npm install moment --save
 npm install quill --save
 npm install roboto-fontface --save
 npm install chart.js --save
+
+npm install --save-dev @types/fullcalendar
+npm install --save-dev @types/jquery
+npm install --save-dev @types/moment
 
 ng serve --poll=2000
 
